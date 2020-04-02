@@ -1,24 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:unisa/app/sign_in/Home_page.dart';
-import 'package:unisa/app/sign_in/validators.dart';
-import 'package:unisa/common_widgets/form_submit_button.dart';
-import 'package:unisa/common_widgets/platform_alert_dialog.dart';
-import 'package:unisa/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:unisa/services/auth.dart';
-import 'package:provider/provider.dart';
-import 'package:unisa/app/sign_in/validators.dart';
-import 'package:unisa/common_widgets/form_submit_button.dart';
-import 'package:unisa/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:unisa/services/auth.dart';
-import 'dart:async';
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http ;
-import 'package:unisa/services/unisa_login.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-class DetailsScreen extends StatefulWidget with EmailAndPasswordValidators {
+class DetailsScreen extends StatefulWidget  {
+  const DetailsScreen ({Key key, @required this.details}) : super(key : key);
+
+  final details;
 
 
   @override
@@ -27,101 +15,17 @@ class DetailsScreen extends StatefulWidget with EmailAndPasswordValidators {
 
 class _DetailsScreenState extends State<DetailsScreen> {
 
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passWordController = TextEditingController();
-  final FocusNode _usernameFocusNode = FocusNode();
-  final FocusNode _passwordFocusNode = FocusNode();
-
-  String get _username => _usernameController.text;
-  String get _password => _passWordController.text;
-
-  bool _submitted = false;
-  bool _isLoading = false;
-  String all_access;
-
-  @override
-  void dispose(){
-    _usernameController.dispose();
-    _passWordController.dispose();
-    _usernameFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    super.dispose();
-  }
-
-  void _submit(BuildContext context) async{
-
-    final token = Provider.of<Token>(context);
-
-    setState(() {
-      _submitted = true;
-      _isLoading = true;
-    });
-    try{
-
-      await token.myUnisa(_username, _password);
-
-      if(token.error != null){
-        PlatformAlertDialog(
-          title: 'Login error',
-          content: token.error,
-          defaultActionText: 'Cancel',
-          cancelActionText: 'Ok',
-        ).show(context);
-      }else{
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => HomePage()
-            )
-        );
-      }
-
-
-
-      //Navigator.of(context).pop();
-    }on PlatformException catch(e){
-      PlatformExceptionDialog(
-        title: 'Sign in failed',
-        exception: e,
-      ).show(context);
-    }finally{
-      setState(() {
-        _isLoading = false;
-      });
-    }
-
-  }
-
-  void _emailEditingComplete(){
-    final newFocus = widget.emailValidator.isValid(_username)
-        ? _passwordFocusNode : _usernameFocusNode;
-    FocusScope.of(context).requestFocus(newFocus);
-  }
-
-
-  _updateState(){
-    setState(() {
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    bool showEmailTextError = _submitted &&
-        !widget.emailValidator.isValid(_username);
-    bool showErrorText = _submitted &&
-        !widget.passwordValidator.isValid(_password);
 
-    bool submitEnabled = widget.emailValidator.isValid(_username) &&
-        widget.passwordValidator.isValid(_password) && (!_isLoading);
 
-    bool showpass = false;
+
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Unisa Login', style: TextStyle(
+        title: Text('Results Details', style: TextStyle(
             fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
-        centerTitle: false,
-
+        centerTitle: true,
 
       ),
 
@@ -132,14 +36,196 @@ class _DetailsScreenState extends State<DetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Text(
+                widget.details['course'],
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 35.0,
+                    color: Colors.black
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 15.0,),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)
+                ),
+                color: Colors.black54,//Color(0xffffff4ce),
+                elevation: 80.0,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 15.0,),
+                    Text(
+                      widget.details['description'],
+                      style: TextStyle(
+                          fontSize:30,
+                          fontFamily: 'Montserrat',
+                        color: Colors.teal
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Final Mark',
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                              color: Colors.white//Color(0xfffbe9b7b)
+                            ),
+                          ),
+                          Icon(Icons.school, size: 35.0, color: Colors.black ),// //Color(0xfff3c2f2f),),
 
+                          Text(
+                            widget.details['finalMark'].toString(),
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Exam Mark',
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+
+                          Text(
+                            widget.details['examMark'].toString(),
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                              color: Colors.white
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Year Mark',
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+
+                          Text(
+                            widget.details['yearMark'].toString(),
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Year Mark Weight',
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+
+                          Text(
+                            widget.details['yearMarkWeight'].toString(),
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Exam Mark Weight',
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+
+                          Text(
+                            widget.details['examMarkWeight'].toString(),
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+
+                  ],
+                ),
+
+
+              )
 
             ],
           ),
         ),
       ),
 
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey,
     );
   }
 

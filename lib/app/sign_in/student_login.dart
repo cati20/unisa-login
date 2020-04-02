@@ -120,7 +120,8 @@ class _StudentLoginState extends State<StudentLogin> {
       appBar: AppBar(
         title: Text('Unisa Login', style: TextStyle(
             fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
-        centerTitle: false,
+            centerTitle: true,
+
 
 
       ),

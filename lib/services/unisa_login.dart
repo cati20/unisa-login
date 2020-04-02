@@ -40,6 +40,7 @@ class Token with ChangeNotifier {
         headers: header,
         encoding: convert.Encoding.getByName('utf-8'));
 
+        print(res.body);
 
     if (res.statusCode == 302) {
       final my = res.headers['location'].toString();

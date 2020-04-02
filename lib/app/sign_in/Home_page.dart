@@ -524,36 +524,65 @@ class _ChatState extends State<Chat> {
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(18.0),
-                  child: ListTile(
-                    isThreeLine: false,
-
-                    leading: Text(
-                        '${widget.students[index]['course']}',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black87
-                      ),
-                    ),
-                    title: SizedBox(
-                      height: 30.0,
+                  child: Dismissible(
+                   key: Key('${widget.students[index]['course']}'),
+                    onDismissed: (direction){
+                      setState(() {
+                        widget.students.removeAt(index);
+                      });
+                      if(direction == DismissDirection.startToEnd){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailsScreen(details: widget.students[index],)
+                            )
+                        );
+                      }
+                    },
+                    background: Container(
+                      color: Colors.cyan,
                       child: Text(
-                          '${widget.students[index]['description']}' == 'Supplementary Examination' ? 'Supp Exam' : '${widget.students[index]['description']}',
-                          style: '${widget.students[index]['description']}' =='Failed' ? TextStyle(color: Colors.red, fontSize: 20.0 ,                        fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w300,)  : TextStyle(color: Colors.green, fontSize: 20.0 ,                        fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w300,),
+                          'Show details',
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white
+                        ),
+                        textAlign: TextAlign.center,
                       ),
+                      alignment: Alignment.centerLeft,
                     ),
-                    trailing: Text(
-                        '${widget.students[index]['finalMark']}',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w300,
+                    child: ListTile(
+                      isThreeLine: false,
+                      leading: Text(
+                          '${widget.students[index]['course']}',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black87
+                        ),
                       ),
-                    ),
+                      title: SizedBox(
+                        height: 30.0,
+                        child: Text(
+                            '${widget.students[index]['description']}' == 'Supplementary Examination' ? 'Supp Exam' : '${widget.students[index]['description']}',
+                            style: '${widget.students[index]['description']}' =='Failed' ? TextStyle(color: Colors.red, fontSize: 20.0 ,                        fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w300,)  : TextStyle(color: Colors.green, fontSize: 20.0 ,                        fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w300,),
+                        ),
+                      ),
+                      trailing: Text(
+                          '${widget.students[index]['finalMark']}',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
 
+                    ),
                   ),
                 ),
               ),
