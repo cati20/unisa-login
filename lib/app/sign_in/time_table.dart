@@ -11,6 +11,8 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http ;
 import 'dart:io';
 
+import 'package:unisa/services/unisa_login.dart';
+
 class TimeTable extends StatefulWidget {
 
   @override
@@ -46,7 +48,8 @@ class _TimeTableState extends State<TimeTable> {
 
 
   getResults(BuildContext context) async {
-
+    final token = Provider.of<Token>(context);
+    final cookie = token.cookie;
 
     setState(() {
       _isLoading = true;
@@ -96,7 +99,8 @@ class _TimeTableState extends State<TimeTable> {
       final header = {
         'Referer': referer,
         'Content-Type': 'application/json',
-        'Accept' : 'application/json'
+        'Accept' : 'application/json',
+        'Cookie': cookie
       };
 
 

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:unisa/app/sign_in/Landing_page.dart';
+import 'package:unisa/app/sign_in/student_login.dart';
 import 'package:unisa/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'dart:ui';
+
+import 'package:unisa/services/unisa_login.dart';
 
 
 
@@ -44,15 +47,15 @@ class _MyAppState extends State<MyApp> {
 class apps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider<AuthBase>(
-      create: (context) => Auth(),
+    return ChangeNotifierProvider<Token>(
+      create: (context) => Token(),
       child: MaterialApp(
         title: 'Exam Results',
         theme: ThemeData(
           primaryColor: Colors.teal,
 
         ),
-        home: LandingPage(),
+        home: StudentLogin(),
       ),
     );
   }
