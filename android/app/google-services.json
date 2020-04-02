@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "698582839279",
+    "firebase_url": "https://unisa-app.firebaseio.com",
+    "project_id": "unisa-app",
+    "storage_bucket": "unisa-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698582839279:android:80eda745ed30942269501a",
+        "android_client_info": {
+          "package_name": "com.brobass.unisa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698582839279-bc7c0trsmdve3cfoijpdb0bj5r5lamek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brobass.unisa",
+            "certificate_hash": "fe66af061b5533f481d116d8e1297d9495950b28"
+          }
+        },
+        {
+          "client_id": "698582839279-ocs91d7r7511jf8l623l9l9f5ve10skb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoBxd_44D1bKz13VkIFrmMB_uk_8BgAm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "698582839279-ocs91d7r7511jf8l623l9l9f5ve10skb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

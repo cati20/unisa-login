@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "913221494789",
+    "firebase_url": "https://be-youtiful-nails.firebaseio.com",
+    "project_id": "be-youtiful-nails",
+    "storage_bucket": "be-youtiful-nails.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913221494789:android:f0de7a69f8bf3ad218d46c",
+        "android_client_info": {
+          "package_name": "com.example.flutterapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913221494789-u51tt6ic4gkhjb6nsp7sbkeqemnkvse7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutterapps",
+            "certificate_hash": "fe66af061b5533f481d116d8e1297d9495950b28"
+          }
+        },
+        {
+          "client_id": "913221494789-h7a3m71tk5j8gcq8v352sv6ogr3ejfl9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ2qUpivMaOeyznQK42wNABCiAqGinVTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913221494789-h7a3m71tk5j8gcq8v352sv6ogr3ejfl9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
