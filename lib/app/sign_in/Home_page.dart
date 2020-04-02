@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:unisa/app/sign_in/academic_record_details.dart';
 import 'package:unisa/app/sign_in/sign_in_page.dart';
 import 'package:unisa/app/sign_in/time_table.dart';
 import 'package:unisa/common_widgets/form_submit_button.dart';
@@ -50,7 +51,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
   
-
 
 
   getResults(BuildContext context) async {
@@ -526,6 +526,7 @@ class _ChatState extends State<Chat> {
                   padding: const EdgeInsets.all(18.0),
                   child: ListTile(
                     isThreeLine: false,
+
                     leading: Text(
                         '${widget.students[index]['course']}',
                       style: TextStyle(

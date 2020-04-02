@@ -18,14 +18,14 @@ import 'package:unisa/services/unisa_login.dart';
 
 
 
-class StudentLogin extends StatefulWidget with EmailAndPasswordValidators {
+class DetailsScreen extends StatefulWidget with EmailAndPasswordValidators {
 
 
   @override
-  _StudentLoginState createState() => _StudentLoginState();
+  _DetailsScreenState createState() => _DetailsScreenState();
 }
 
-class _StudentLoginState extends State<StudentLogin> {
+class _DetailsScreenState extends State<DetailsScreen> {
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passWordController = TextEditingController();
@@ -50,7 +50,7 @@ class _StudentLoginState extends State<StudentLogin> {
 
   void _submit(BuildContext context) async{
 
-  final token = Provider.of<Token>(context);
+    final token = Provider.of<Token>(context);
 
     setState(() {
       _submitted = true;
@@ -133,89 +133,6 @@ class _StudentLoginState extends State<StudentLogin> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
 
-              Text(
-                'MyUnisa Login',
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 30.0, fontFamily: 'Montserrat'),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 35.0,),
-              TextField(
-                controller: _usernameController,
-                focusNode: _usernameFocusNode,
-                decoration: InputDecoration(
-                  labelText: 'Student No',
-                  hintText: '56201265',
-                  errorText: showEmailTextError
-                      ? widget.invalidEmailErrortext
-                      : null,
-                    enabled: _isLoading == false ? true : false,
-                    prefixIcon: Icon(Icons.account_circle, color: Colors.pink,),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    focusColor: Colors.lightGreen
-                ),
-                maxLength: 8,
-                autocorrect: false,
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
-                onChanged: (email) => _updateState(),
-                onEditingComplete: _emailEditingComplete,
-                enabled: _isLoading ? false : true,
-              ),
-              SizedBox(height: 8.0,),
-              TextField(
-                controller: _passWordController,
-                focusNode: _passwordFocusNode,
-                decoration: InputDecoration(
-                    labelText: 'Password',
-                    errorText: showErrorText
-                        ? widget.invalidPasswordErrortext
-                        : null,
-                    enabled: _isLoading == false ? true : false,
-                    prefixIcon: Icon(Icons.vpn_key, color: Colors.pink,),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    focusColor: Colors.lightGreen
-                ),
-                maxLength: 8,
-                obscureText: true,
-                textInputAction: TextInputAction.done,
-                onChanged: (password) => _updateState(),
-                onEditingComplete: _emailEditingComplete,
-                enabled: _isLoading ? false : true,
-
-              ),
-
-              RaisedButton(
-                child:  Text(
-                   _isLoading ? "Logging In" : 'Login',
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 18.0,
-                      fontWeight:
-                      FontWeight.w600),
-                ),
-                color: Colors.teal,
-                onPressed: () => _isLoading ? null : _submit(context),
-              ),
-             /* _isLoading == false ? Text('') :
-
-              SnackBar(
-                backgroundColor: Colors.black,
-
-                  content: Text(
-                    'Logging in progress',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.
-                        w600,
-                        fontSize: 15.0,
-                        color: Colors.white
-                    ),
-                    textAlign: TextAlign.center,
-                  )
-
-              )*/
 
             ],
           ),
