@@ -138,7 +138,7 @@ class _AcademicRecordState extends State<AcademicRecord> {
         yearController.clear();
         examPeriodController.clear();
 
-
+        print(students);
 
         Navigator.push(
           context,

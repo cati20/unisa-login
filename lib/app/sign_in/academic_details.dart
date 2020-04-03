@@ -18,6 +18,10 @@ class _AcademicDetailsState extends State<AcademicDetails> {
   @override
   Widget build(BuildContext context) {
 
+      convertDate (time){
+        var conveted = new DateTime.fromMicrosecondsSinceEpoch(time * 1000);
+        return conveted.toString();
+      }
 
 
 
@@ -36,6 +40,16 @@ class _AcademicDetailsState extends State<AcademicDetails> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Text(
+                widget.details['qualificationCode'],
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 35.0,
+                    color: Colors.black
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 15.0,),
               Text(
                 widget.details['studyUnitCode'],
                 style: TextStyle(
@@ -99,19 +113,11 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Exam Mark',
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+
+                          Icon(Icons.perm_identity, size: 35.0, color: Colors.black87),
 
                           Text(
-                             '', //widget.details['examMark'].toString(),
+                             widget.details['studentNumber'].toString(),
                             style: TextStyle(
                                 fontSize: 25.0,
                                 fontFamily: 'Montserrat',
@@ -123,36 +129,7 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Year Mark',
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black87),
 
-                          Text(
-                           '', //widget.details['yearMark'].toString(),
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Row(
@@ -168,7 +145,7 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                                 color: Colors.white
                             ),
                           ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+                          Icon(Icons.calendar_today, size: 35.0, color: Colors.black87),
 
                           Text(
                             widget.details['academicYear'].toString(),
@@ -186,31 +163,61 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'Exam Mark Weight',
+                            'Exam Date' ,
                             style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
+                              fontSize: 19.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
                             ),
+                            softWrap: true,
                           ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+                          Icon(Icons.calendar_today, size: 35.0, color: Colors.black87),
+                          Text(
+                             convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
+                            style: TextStyle(
+                              fontSize: 19.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
+                            ),
+                            softWrap: true,
+                          ),
+
+
+
+                        ],
+                      ),
+                    ),
+
+
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
 
                           Text(
-                            widget.details['examMarkWeight'].toString() == null ? '' : widget.details['examMarkWeight'].toString(),
+                            widget.details['studyUnitDescription'].toString() ,
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 19.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
-                                color: Colors.white
+                                color: Colors.white,
+
                             ),
+                            softWrap: true,
                           ),
 
-                          Text(widget.details.toString())
+
 
                         ],
                       ),
