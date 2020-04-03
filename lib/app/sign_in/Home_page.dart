@@ -528,7 +528,7 @@ class _ChatState extends State<Chat> {
                    key: Key('${widget.students[index]['course']}'),
                     onDismissed: (direction){
                       setState(() {
-                        widget.students.removeAt(index);
+                        widget.students.removeAt( index);
                       });
                       if(direction == DismissDirection.startToEnd){
                         Navigator.push(

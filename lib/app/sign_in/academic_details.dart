@@ -3,17 +3,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-class DetailsScreen extends StatefulWidget  {
-  const DetailsScreen ({Key key, @required this.details}) : super(key : key);
+class AcademicDetails extends StatefulWidget  {
+  const AcademicDetails ({Key key, @required this.details}) : super(key : key);
 
   final details;
 
 
   @override
-  _DetailsScreenState createState() => _DetailsScreenState();
+  _AcademicDetailsState createState() => _AcademicDetailsState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _AcademicDetailsState extends State<AcademicDetails> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Results Details', style: TextStyle(
+        title: Text('Academic Details', style: TextStyle(
             fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
         centerTitle: true,
 
@@ -37,7 +37,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                widget.details['course'],
+                widget.details['studyUnitCode'],
                 style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 35.0,
@@ -48,7 +48,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               SizedBox(height: 15.0,),
               Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0)
+                    borderRadius: BorderRadius.circular(15.0)
                 ),
                 color: Colors.black54,//Color(0xffffff4ce),
                 elevation: 80.0,
@@ -56,11 +56,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   children: <Widget>[
                     SizedBox(height: 15.0,),
                     Text(
-                      'test' , //widget.details['description'],
+                      widget.details['resultTypeDescription'],
                       style: TextStyle(
                           fontSize:30,
                           fontFamily: 'Montserrat',
-                        color: Colors.teal
+                          color: Colors.teal
                       ),
                     ),
                     Padding(
@@ -75,18 +75,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 fontSize: 25.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
-                              color: Colors.white//Color(0xfffbe9b7b)
+                                color: Colors.white//Color(0xfffbe9b7b)
                             ),
                           ),
                           Icon(Icons.school, size: 35.0, color: Colors.black ),// //Color(0xfff3c2f2f),),
 
                           Text(
-                            widget.details['finalMark'].toString(),
+                            widget.details['mark'].toString(),
                             style: TextStyle(
-                              fontSize: 25.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white
+                                fontSize: 25.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
                             ),
                           ),
 
@@ -111,12 +111,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Icon(Icons.school, size: 35.0, color: Colors.black87),
 
                           Text(
-                            widget.details['examMark'].toString(),
+                             '', //widget.details['examMark'].toString(),
                             style: TextStyle(
                                 fontSize: 25.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
-                              color: Colors.white
+                                color: Colors.white
                             ),
                           ),
 
@@ -141,7 +141,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Icon(Icons.school, size: 35.0, color: Colors.black87),
 
                           Text(
-                            widget.details['yearMark'].toString(),
+                           '', //widget.details['yearMark'].toString(),
                             style: TextStyle(
                                 fontSize: 25.0,
                                 fontFamily: 'Montserrat',
@@ -160,7 +160,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Year Mark Weight',
+                            'Year',
                             style: TextStyle(
                                 fontSize: 25.0,
                                 fontFamily: 'Montserrat',
@@ -171,7 +171,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Icon(Icons.school, size: 35.0, color: Colors.black87),
 
                           Text(
-                            widget.details['yearMarkWeight'].toString() == null ? '' : widget.details['yearMarkWeight'].toString(),
+                            widget.details['academicYear'].toString(),
                             style: TextStyle(
                                 fontSize: 25.0,
                                 fontFamily: 'Montserrat',
@@ -209,6 +209,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 color: Colors.white
                             ),
                           ),
+
+                          Text(widget.details.toString())
 
                         ],
                       ),

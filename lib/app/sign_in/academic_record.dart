@@ -13,6 +13,9 @@ import 'dart:io';
 
 import 'package:unisa/services/unisa_login.dart';
 
+import 'academic_details.dart';
+import 'academic_record_details.dart';
+
 class AcademicRecord extends StatefulWidget {
 
   @override
@@ -506,33 +509,63 @@ class _ChatState extends State<Chat> {
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(18.0),
-              child: ListTile(
-                isThreeLine: false,
-                leading: Text(
-                  '${widget.students[index]['studyUnitCode']}',
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.black87,
-                      fontFamily: 'Montserrat' ,
-                      fontWeight: FontWeight.w400
-                  ),
-                ),
-                title: SizedBox(
-                  height: 50.0,
+              child: Dismissible(
+                key: Key('${widget.students[index]['studyUnitCode']}'),
+                onDismissed: (direction){
+                  setState(() {
+                    widget.students.removeAt( index);
+                  });
+                  if(direction == DismissDirection.startToEnd){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AcademicDetails(details: widget.students[index],)
+                        )
+                    );
+                  }
+                },
+                background: Container(
+                  color: Colors.cyan,
                   child: Text(
-                    '${widget.students[index]['resultTypeDescription']}' ,
-                    style:  TextStyle(color: Colors.teal, fontSize: 20.0, fontFamily: 'Montserrat' ) ,
+                    'Show details',
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white
+                    ),
+                    textAlign: TextAlign.center,
                   ),
+                  alignment: Alignment.centerLeft,
                 ),
-                subtitle: Text(
-                  '${widget.students[index]['academicYear']}',
-                  style: TextStyle(color: Colors.indigo, fontSize: 20.0, fontFamily: 'Montserrat' , fontWeight: FontWeight.w300),
-                ),
-                trailing: Text(
-                  '${widget.students[index]['mark']}',
-                  style: TextStyle(color: Colors.indigo, fontSize: 20.0, fontFamily: 'Montserrat' , fontWeight: FontWeight.w300),
-                ),
+                child: ListTile(
+                  isThreeLine: false,
+                  leading: Text(
+                    '${widget.students[index]['studyUnitCode']}',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.black87,
+                        fontFamily: 'Montserrat' ,
+                        fontWeight: FontWeight.w400
+                    ),
+                  ),
+                  title: SizedBox(
+                    height: 50.0,
+                    child: Text(
+                      '${widget.students[index]['resultTypeDescription']}' ,
+                      style:  TextStyle(color: Colors.teal, fontSize: 20.0, fontFamily: 'Montserrat' ) ,
+                    ),
+                  ),
+                  subtitle: Text(
+                    '${widget.students[index]['academicYear']}',
+                    style: TextStyle(color: Colors.indigo, fontSize: 20.0, fontFamily: 'Montserrat' , fontWeight: FontWeight.w300),
+                  ),
+                  trailing: Text(
+                    '${widget.students[index]['mark']}',
+                    style: TextStyle(color: Colors.indigo, fontSize: 20.0, fontFamily: 'Montserrat' , fontWeight: FontWeight.w300),
+                  ),
 
+                ),
               ),
             ),
           ),
