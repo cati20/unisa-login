@@ -84,18 +84,14 @@ class _Student_infoState extends State<Student_info> {
 
 
 
-
-
-
-
     setState(() {
      title = pro['title'];
       initials =  pro['initials'];
       surname = pro['surname'];
-      firstNames = pro['firstNames'];
+      firstNames = bigraphy['firstNames'];
       gender = pro['gender'];
-      birthDate = pro['birthDate'];
-      nationality = pro['nationality'];
+      birthDate = bigraphy['birthDate'].toString();
+      nationality = bigraphy['nationality'];
       homeLanguageDescription = bigraphy['homeLanguageDescription'];
       regRegionDescription = bigraphy['regRegionDescription'];
       qualificationCode = pro['qualificationCode'];
@@ -109,6 +105,7 @@ class _Student_infoState extends State<Student_info> {
       postalCode = data['postalCode'];
       isloading = false;
     });
+
 
 
 
@@ -162,6 +159,21 @@ class _Student_infoState extends State<Student_info> {
       body: Center(
         child: Column(
           children: <Widget>[
+            SizedBox(height: 300.0,),
+            SizedBox(
+              height: 150.0,
+              width: 160.0,
+              child: isloading ?
+                  LinearProgressIndicator()
+              /*Text('Loading' ,
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.w600
+                ),
+                textAlign: TextAlign.center,)*/
+                  : Text(''),
+            ),
             RaisedButton(
               child: Text(
                 'Get Profile',
@@ -171,6 +183,7 @@ class _Student_infoState extends State<Student_info> {
                   fontSize: 18.0,
                   color: Colors.white
                 ),
+
               ),
               color: Colors.teal, 
               onPressed: isloading == false ? () => studentInfo(context) : null,
@@ -180,7 +193,7 @@ class _Student_infoState extends State<Student_info> {
       ),
 
 
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
     );
   }
 
@@ -234,7 +247,8 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     convertDate (time){
-      var conveted = new DateTime.fromMicrosecondsSinceEpoch(time * 1000);
+      int date = int.tryParse(time);
+      var conveted = new DateTime.fromMicrosecondsSinceEpoch(date * 1000);
       return conveted.toString();
     }
 
@@ -242,8 +256,28 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         title: Text('Student info'),
         //Text(widget.profile['studentN'], style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600),),
-        elevation: 10.0,
+        elevation: 20.0,
         centerTitle: true,
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(13.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text(
+                  'R'+widget.amountFinalBalance,
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0, fontFamily: 'Montserrat'),
+                  textAlign: TextAlign.left,
+                ),
+                Icon(
+                  FontAwesomeIcons.coins,
+                  color: Colors.white,
+                  size: 30.0,
+                )
+              ],
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -261,23 +295,236 @@ class _ProfileState extends State<Profile> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 15.0,),
-              Text(
-                '',
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 35.0,
-                    color: Colors.black
+              Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)
                 ),
-                textAlign: TextAlign.center,
+
+                color: Colors.black54, //Color(0xffffff4ce),
+                elevation: 10.0,
+
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 15.0,),
+                    Text(
+                      '',
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontFamily: 'Montserrat',
+                          color: Colors.teal
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Title',
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white //Color(0xfffbe9b7b)
+                            ),
+                          ),
+                          Icon(Icons.perm_identity, size: 35.0, color: Colors.black),
+                          // //Color(0xfff3c2f2f),),
+
+                          Text(
+                            widget.title.toString(),
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+
+                          Text(
+                            'Surname & initials',
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+
+                          Text(
+                            widget.surname.toString() + ' ' + widget.initials,
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'First Name',
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+
+                          Text(
+                            widget.firstNames.toString(),
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Date of birth',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
+                            ),
+                            softWrap: true,
+                          ),
+                          Icon(Icons.calendar_today, size: 20.0, color: Colors.black87),
+                          Text(
+                            convertDate(widget.birthDate).substring(0,10),
+                            //convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
+                            ),
+
+                          ),
+
+
+                        ],
+                      ),
+                    ),
+
+
+
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+
+                          Text(
+                            'Home Language',
+                            style: TextStyle(
+                              fontSize: 19.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
+                            ),
+
+                          ),
+
+                          Text(
+                            widget.homeLanguageDescription.toString(),
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Nationality',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
+                            ),
+                            softWrap: true,
+                          ),
+                          Icon(Icons.flag, size: 20.0, color: Colors.black87),
+                          Text(
+                            widget.nationality.toString(),
+                            //convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
+                            ),
+
+                          ),
+                        ],
+                      ),
+                    ),
+
+
+                  ],
+                ),
+
               ),
-              SizedBox(height: 15.0,),
+
+
               Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)
                 ),
                 color: Colors.black54, //Color(0xffffff4ce),
-                elevation: 80.0,
+                elevation: 10.0,
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 15.0,),
@@ -296,21 +543,21 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Final Mark',
+                            'Cellphone ',
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white //Color(0xfffbe9b7b)
                             ),
                           ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black),
+                          Icon(Icons.phone_android, size: 20.0, color: Colors.black),
                           // //Color(0xfff3c2f2f),),
 
                           Text(
-                            '', //widget.details['mark'].toString(),
+                            widget.courierContactNumber,
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -326,14 +573,22 @@ class _ProfileState extends State<Profile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-
-                          Icon(Icons.perm_identity, size: 35.0, color: Colors
+                          Text(
+                            'Email',
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            ),
+                          ),
+                          Icon(Icons.email, size: 20.0, color: Colors
                               .black87),
 
                           Text(
-                            '', //widget.details['studentNumber'].toString(),
+                            widget.emailAddress,
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -351,21 +606,21 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Year',
+                            'Home address',
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                             ),
                           ),
-                          Icon(Icons.calendar_today, size: 35.0, color: Colors
+                          Icon(Icons.home, size: 20.0, color: Colors
                               .black87),
 
                           Text(
-                            '', //widget.details['academicYear'].toString(),
+                            widget.addressLine1,
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -383,197 +638,22 @@ class _ProfileState extends State<Profile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'Exam Date',
+                            'Surburb',
                             style: TextStyle(
-                              fontSize: 19.0,
+                              fontSize: 15.0,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
 
                             ),
-                            softWrap: true,
+
                           ),
-                          Icon(Icons.calendar_today, size: 35.0, color: Colors
+                          Icon(Icons.business, size: 20.0, color: Colors
                               .black87),
                           Text(
-                            '',
-                            //convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
+                            widget.addressLine2,
                             style: TextStyle(
-                              fontSize: 19.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-                            softWrap: true,
-                          ),
-
-
-                        ],
-                      ),
-                    ),
-
-
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-
-                          Text(
-                            '',
-                            //widget.details['studyUnitDescription'].toString() ,
-                            style: TextStyle(
-                              fontSize: 19.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-                            softWrap: true,
-                          ),
-
-
-                        ],
-                      ),
-                    ),
-
-                  ],
-                ),
-
-
-              ),
-
-
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)
-                ),
-                color: Colors.black54, //Color(0xffffff4ce),
-                elevation: 80.0,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 15.0,),
-                    Text(
-                      '', // widget.details['resultTypeDescription'],
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'Montserrat',
-                          color: Colors.teal
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Final Mark',
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white //Color(0xfffbe9b7b)
-                            ),
-                          ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black),
-                          // //Color(0xfff3c2f2f),),
-
-                          Text(
-                            '', //widget.details['mark'].toString(),
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-
-                          Icon(Icons.perm_identity, size: 35.0, color: Colors
-                              .black87),
-
-                          Text(
-                            '', //widget.details['studentNumber'].toString(),
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Year',
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-                          Icon(Icons.calendar_today, size: 35.0, color: Colors
-                              .black87),
-
-                          Text(
-                            '', //widget.details['academicYear'].toString(),
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Exam Date',
-                            style: TextStyle(
-                              fontSize: 19.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-                            softWrap: true,
-                          ),
-                          Icon(Icons.calendar_today, size: 35.0, color: Colors
-                              .black87),
-                          Text(
-                            '',
-                            //convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
-                            style: TextStyle(
-                              fontSize: 19.0,
+                              fontSize: 15.0,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -591,19 +671,29 @@ class _ProfileState extends State<Profile> {
                       child: Row(
 
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
 
                           Text(
-                            '',
-                            //widget.details['studyUnitDescription'].toString() ,
+                            'Postal code',
                             style: TextStyle(
-                              fontSize: 19.0,
+                              fontSize: 15.0,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
 
                             ),
-                            softWrap: true,
+                          ),
+                          Icon(Icons.mail_outline, size: 20.0, color: Colors.black,),
+                          Text(
+                            widget.postalCode,
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
+                            ),
                           ),
 
                         ],
@@ -615,180 +705,6 @@ class _ProfileState extends State<Profile> {
 
 
               ),
-
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)
-                ),
-                color: Colors.black54, //Color(0xffffff4ce),
-                elevation: 80.0,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 15.0,),
-                    Text(
-                      '', // widget.details['resultTypeDescription'],
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'Montserrat',
-                          color: Colors.teal
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Final Mark',
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white //Color(0xfffbe9b7b)
-                            ),
-                          ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black),
-                          // //Color(0xfff3c2f2f),),
-
-                          Text(
-                            '', //widget.details['mark'].toString(),
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-
-                          Icon(Icons.perm_identity, size: 35.0, color: Colors
-                              .black87),
-
-                          Text(
-                            '', //widget.details['studentNumber'].toString(),
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Year',
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-                          Icon(Icons.calendar_today, size: 35.0, color: Colors
-                              .black87),
-
-                          Text(
-                            '', //widget.details['academicYear'].toString(),
-                            style: TextStyle(
-                                fontSize: 25.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Exam Date',
-                            style: TextStyle(
-                              fontSize: 19.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-                            softWrap: true,
-                          ),
-                          Icon(Icons.calendar_today, size: 35.0, color: Colors
-                              .black87),
-                          Text(
-                            '',
-                            //convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
-                            style: TextStyle(
-                              fontSize: 19.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-                            softWrap: true,
-                          ),
-
-
-                        ],
-                      ),
-                    ),
-
-
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-
-                          Text(
-                            '',
-                            //widget.details['studyUnitDescription'].toString() ,
-                            style: TextStyle(
-                              fontSize: 19.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-                            softWrap: true,
-                          ),
-
-
-                        ],
-                      ),
-                    ),
-
-                  ],
-                ),
-
-
-              ),
-
 
             ],
           ),
