@@ -9,6 +9,7 @@ class Token with ChangeNotifier {
   /// Internal, private state of the cart.
   String cookie = null;
   String error;
+  String student;
 
 
 
@@ -46,12 +47,18 @@ class Token with ChangeNotifier {
       final my = res.headers['location'].toString();
       final getAuth = await http.post(my, headers: header);
       cookie =  getAuth.headers['set-cookie'].substring(0,45);
+     // student = studentNumber;
       notifyListeners();
     }else{
       error = 'Please enter a valid studentNo and password ';
       notifyListeners();
     }
 
+  }
+
+  Future<String> studentId(String studentNum){
+    student = studentNum;
+    notifyListeners();
   }
 
 }

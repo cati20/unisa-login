@@ -56,7 +56,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   children: <Widget>[
                     SizedBox(height: 15.0,),
                     Text(
-                      'test' , //widget.details['description'],
+                      widget.details['description'],
                       style: TextStyle(
                           fontSize:30,
                           fontFamily: 'Montserrat',

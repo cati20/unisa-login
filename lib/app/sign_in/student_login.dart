@@ -59,6 +59,7 @@ class _StudentLoginState extends State<StudentLogin> {
     try{
 
       await token.myUnisa(_username, _password);
+      await token.studentId(_username);
 
       if(token.error != null){
         PlatformAlertDialog(

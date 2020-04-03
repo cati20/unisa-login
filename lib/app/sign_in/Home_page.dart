@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:unisa/app/sign_in/academic_record_details.dart';
 import 'package:unisa/app/sign_in/sign_in_page.dart';
+import 'package:unisa/app/sign_in/student_info.dart';
 import 'package:unisa/app/sign_in/time_table.dart';
 import 'package:unisa/common_widgets/form_submit_button.dart';
 import 'package:unisa/common_widgets/platform_alert_dialog.dart';
@@ -308,10 +309,17 @@ class _HomePageState extends State<HomePage> {
 
             FlatButton(
                 child: IconButton(
-                  icon: const Icon(Icons.input),
+                  icon: const Icon(Icons.perm_identity),
                   iconSize: 30.0,
                 ),
-                onPressed: ()=> _confirmSignOut(context),
+                onPressed: ()=> {
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => Student_info()
+                ),
+                )
+                },
             ),
 
           ],
@@ -483,6 +491,11 @@ class _ChatState extends State<Chat> {
         elevation: 10.0,
         centerTitle: true,
         actions: <Widget>[
+          Icon(
+            Icons.perm_identity,
+            size: 40.0,
+            color: Colors.black,
+          )
         ],
       ),
       body: _buildBuilder(),

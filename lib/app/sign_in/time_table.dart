@@ -515,7 +515,7 @@ class _ChatState extends State<Chat> {
                   ),
                 ),
                 title: SizedBox(
-                  height: 50.0,
+                  height: 65.0,
                   child: Text(
                     '${widget.students[index]['examDate']}' ,
                     style:  TextStyle(color: Colors.teal, fontSize: 20.0, fontFamily: 'Montserrat' ) ,
