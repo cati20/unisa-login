@@ -6,6 +6,8 @@ import 'package:unisa/services/unisa_login.dart';
 import 'dart:async';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http ;
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+
 
 import 'Home_page.dart';
 import 'academic_record.dart';
@@ -159,12 +161,21 @@ class _Student_infoState extends State<Student_info> {
       body: Center(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 300.0,),
+            SizedBox(height: 200.0,),
             SizedBox(
-              height: 150.0,
-              width: 160.0,
+              height: 200.0,
+              width: 300.0,
               child: isloading ?
-                  LinearProgressIndicator()
+              LiquidCircularProgressIndicator(
+                value: 0.60, // Defaults to 0.5.
+                valueColor: AlwaysStoppedAnimation(Colors.teal), // Defaults to the current Theme's accentColor.
+                backgroundColor: Colors.white, // Defaults to the current Theme's backgroundColor.
+                borderColor: Colors.black,
+                borderWidth: 5.0,
+                //borderRadius: 30.0,
+                direction: Axis.vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.horizontal.
+                center: Text("Loading..."),
+              )
               /*Text('Loading' ,
                 style: TextStyle(
                     fontFamily: 'Montserrat',
@@ -172,8 +183,17 @@ class _Student_infoState extends State<Student_info> {
                   fontWeight: FontWeight.w600
                 ),
                 textAlign: TextAlign.center,)*/
-                  : Text(''),
+                  : 
+              Container(
+                height: 250.0,
+                child: Image.asset(
+                    'images/avatar.png',
+                  fit: BoxFit.cover,
+                  height: 200.0,
+                ),
+              ),
             ),
+            SizedBox(height: 10.0,),
             RaisedButton(
               child: Text(
                 'Get Profile',
@@ -329,7 +349,8 @@ class _ProfileState extends State<Profile> {
                                 color: Colors.white //Color(0xfffbe9b7b)
                             ),
                           ),
-                          Icon(Icons.perm_identity, size: 35.0, color: Colors.black),
+                          widget.title == 'MISS' || widget.title == 'MRS'  ? FaIcon(FontAwesomeIcons.female)
+                          : FaIcon(FontAwesomeIcons.male),
                           // //Color(0xfff3c2f2f),),
 
                           Text(
@@ -361,7 +382,7 @@ class _ProfileState extends State<Profile> {
                                 color: Colors.white
                             ),
                           ),
-
+                          FaIcon(FontAwesomeIcons.personBooth),
                           Text(
                             widget.surname.toString() + ' ' + widget.initials,
                             style: TextStyle(
@@ -390,7 +411,7 @@ class _ProfileState extends State<Profile> {
                                 color: Colors.white
                             ),
                           ),
-
+                          Icon(FontAwesomeIcons.user),
                           Text(
                             widget.firstNames.toString(),
                             style: TextStyle(
@@ -422,7 +443,7 @@ class _ProfileState extends State<Profile> {
                             ),
                             softWrap: true,
                           ),
-                          Icon(Icons.calendar_today, size: 20.0, color: Colors.black87),
+                          Icon(FontAwesomeIcons.calendarDay),
                           Text(
                             convertDate(widget.birthDate).substring(0,10),
                             //convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
@@ -460,8 +481,8 @@ class _ProfileState extends State<Profile> {
                               color: Colors.white,
 
                             ),
-
                           ),
+                          FaIcon(FontAwesomeIcons.language),
 
                           Text(
                             widget.homeLanguageDescription.toString(),
@@ -495,7 +516,7 @@ class _ProfileState extends State<Profile> {
                             ),
                             softWrap: true,
                           ),
-                          Icon(Icons.flag, size: 20.0, color: Colors.black87),
+                          FaIcon(FontAwesomeIcons.map),
                           Text(
                             widget.nationality.toString(),
                             //convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
@@ -582,8 +603,8 @@ class _ProfileState extends State<Profile> {
                                 color: Colors.white
                             ),
                           ),
-                          Icon(Icons.email, size: 20.0, color: Colors
-                              .black87),
+                          FaIcon(FontAwesomeIcons.mailBulk),
+
 
                           Text(
                             widget.emailAddress,
@@ -614,8 +635,7 @@ class _ProfileState extends State<Profile> {
                                 color: Colors.white
                             ),
                           ),
-                          Icon(Icons.home, size: 20.0, color: Colors
-                              .black87),
+                         FaIcon(FontAwesomeIcons.home),
 
                           Text(
                             widget.addressLine1,
@@ -648,8 +668,7 @@ class _ProfileState extends State<Profile> {
                             ),
 
                           ),
-                          Icon(Icons.business, size: 20.0, color: Colors
-                              .black87),
+                          FaIcon(FontAwesomeIcons.city),
                           Text(
                             widget.addressLine2,
                             style: TextStyle(
@@ -684,7 +703,7 @@ class _ProfileState extends State<Profile> {
 
                             ),
                           ),
-                          Icon(Icons.mail_outline, size: 20.0, color: Colors.black,),
+                          FaIcon(FontAwesomeIcons.mailchimp),
                           Text(
                             widget.postalCode,
                             style: TextStyle(

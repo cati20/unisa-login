@@ -65,14 +65,14 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                     borderRadius: BorderRadius.circular(15.0)
                 ),
                 color: Colors.black54,//Color(0xffffff4ce),
-                elevation: 80.0,
+                elevation: 10.0,
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 15.0,),
                     Text(
                       widget.details['resultTypeDescription'],
                       style: TextStyle(
-                          fontSize:30,
+                          fontSize:15,
                           fontFamily: 'Montserrat',
                           color: Colors.teal
                       ),
@@ -86,18 +86,17 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                           Text(
                             'Final Mark',
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white//Color(0xfffbe9b7b)
                             ),
                           ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black ),// //Color(0xfff3c2f2f),),
-
+                          Icon(Icons.school, size: 20.0, color: Colors.black ),
                           Text(
                             widget.details['mark'].toString(),
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -114,12 +113,12 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
 
-                          Icon(Icons.perm_identity, size: 35.0, color: Colors.black87),
+                          Icon(Icons.perm_identity, size: 20.0, color: Colors.black87),
 
                           Text(
                              widget.details['studentNumber'].toString(),
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -139,18 +138,18 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                           Text(
                             'Year',
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                             ),
                           ),
-                          Icon(Icons.calendar_today, size: 35.0, color: Colors.black87),
+                          Icon(Icons.calendar_today, size: 20.0, color: Colors.black87),
 
                           Text(
                             widget.details['academicYear'].toString(),
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -170,7 +169,7 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                           Text(
                             'Exam Date' ,
                             style: TextStyle(
-                              fontSize: 19.0,
+                              fontSize: 15.0,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -178,11 +177,11 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                             ),
                             softWrap: true,
                           ),
-                          Icon(Icons.calendar_today, size: 35.0, color: Colors.black87),
+                          Icon(Icons.calendar_today, size: 20.0, color: Colors.black87),
                           Text(
                              convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
                             style: TextStyle(
-                              fontSize: 19.0,
+                              fontSize: 15.0,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -190,9 +189,6 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                             ),
                             softWrap: true,
                           ),
-
-
-
                         ],
                       ),
                     ),
@@ -208,7 +204,7 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                           Text(
                             widget.details['studyUnitDescription'].toString() ,
                             style: TextStyle(
-                                fontSize: 19.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -217,18 +213,13 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                             softWrap: true,
                           ),
 
-
-
                         ],
                       ),
                     ),
 
                   ],
                 ),
-
-
               )
-
             ],
           ),
         ),

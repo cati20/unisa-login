@@ -33,6 +33,9 @@ dependencies:
   http: ^0.12.0+4
   pdf: ^1.5.0
   font_awesome_flutter: ^8.8.1
+  liquid_progress_indicator: ^0.3.2
+  step_progress_indicator: ^0.2.0+3
+
 
 
 
@@ -68,6 +71,7 @@ flutter:
     - images/unisa-logo.jpg
     - images/logo.png
     - images/chat.png
+    - images/avatar.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

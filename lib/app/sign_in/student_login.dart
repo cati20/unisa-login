@@ -15,6 +15,8 @@ import 'dart:async';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http ;
 import 'package:unisa/services/unisa_login.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
+
 
 
 
@@ -127,7 +129,31 @@ class _StudentLoginState extends State<StudentLogin> {
 
       ),
 
-      body: SingleChildScrollView(
+      body: _isLoading ?
+
+      StepProgressIndicator(
+        totalSteps: 6,
+        currentStep: 4,
+        size: 36,
+        selectedColor: Colors.black,
+        unselectedColor: Colors.grey[200],
+        customStep: (index, color, _) => color == Colors.black
+            ? Container(
+          color: color,
+          child: Icon(
+            Icons.check,
+            color: Colors.white,
+          ),
+        )
+            : Container(
+          color: color,
+          child: Icon(
+            Icons.remove,
+          ),
+        ),
+      )
+      :
+      SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -200,24 +226,6 @@ class _StudentLoginState extends State<StudentLogin> {
                 color: Colors.teal,
                 onPressed: () => _isLoading ? null : _submit(context),
               ),
-             /* _isLoading == false ? Text('') :
-
-              SnackBar(
-                backgroundColor: Colors.black,
-
-                  content: Text(
-                    'Logging in progress',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.
-                        w600,
-                        fontSize: 15.0,
-                        color: Colors.white
-                    ),
-                    textAlign: TextAlign.center,
-                  )
-
-              )*/
 
             ],
           ),

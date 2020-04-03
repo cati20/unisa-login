@@ -13,6 +13,8 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http ;
 import 'package:unisa/services/unisa_login.dart';
 import 'dart:io';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
+
 
 import 'academic_record.dart';
 
@@ -188,6 +190,7 @@ class _HomePageState extends State<HomePage> {
         labelText: 'Year',
         hintText: '2020'
       ),
+      maxLength: 4,
       obscureText: false,
       textInputAction: TextInputAction.next,
       controller: yearController,
@@ -205,6 +208,7 @@ class _HomePageState extends State<HomePage> {
         labelText: 'Student Number',
         hintText: '56102548',
       ),
+      maxLength: 8,
       autocorrect: false,
       textInputAction: TextInputAction.next,
       controller: studemtNumberController,
@@ -223,6 +227,7 @@ class _HomePageState extends State<HomePage> {
         labelText: 'Exam Period',
         hintText: 'Jan/June/Oct',
       ),
+      maxLength: 2,
       autocorrect: false,
       textInputAction: TextInputAction.done,
       controller: examPeriodController,
@@ -361,7 +366,8 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(
-                        height: 50.0,
+                        height: 180.0,
+                        width: 260.0,
                         child: _buildHeader(),
                     ),
                     SizedBox(height:20.0,),
@@ -386,7 +392,14 @@ class _HomePageState extends State<HomePage> {
   Widget _buildHeader(){
     if(_isLoading){
       return Center(
-        child: CircularProgressIndicator(),
+        child: StepProgressIndicator(
+          totalSteps: 10,
+          currentStep: 7,
+          selectedColor: Colors.pink,
+          unselectedColor: Colors.amber,
+          customSize: (index) => (index + 1) * 10.0,
+        )
+        ,
       );
     }
     return Text(

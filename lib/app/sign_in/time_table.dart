@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:unisa/app/sign_in/Home_page.dart';
 import 'package:unisa/app/sign_in/academic_record.dart';
+import 'package:unisa/app/sign_in/student_info.dart';
 import 'package:unisa/common_widgets/form_submit_button.dart';
 import 'package:unisa/common_widgets/platform_alert_dialog.dart';
 import 'package:unisa/services/auth.dart';
@@ -182,6 +183,7 @@ class _TimeTableState extends State<TimeTable> {
           labelText: 'Year',
           hintText: '2020'
       ),
+      maxLength: 4,
       obscureText: false,
       textInputAction: TextInputAction.next,
       controller: yearController,
@@ -198,6 +200,7 @@ class _TimeTableState extends State<TimeTable> {
         labelText: 'Student Number',
         hintText: '56102548',
       ),
+      maxLength: 8,
       autocorrect: false,
       textInputAction: TextInputAction.next,
       controller: studemtNumberController,
@@ -216,6 +219,7 @@ class _TimeTableState extends State<TimeTable> {
         labelText: 'Exam Period',
         hintText: 'Jan/June/Oct',
       ),
+      maxLength: 2,
       autocorrect: false,
       textInputAction: TextInputAction.done,
       controller: examPeriodController,
@@ -298,10 +302,17 @@ class _TimeTableState extends State<TimeTable> {
         actions: <Widget>[
           FlatButton(
             child: IconButton(
-              icon: const Icon(Icons.input),
+              icon: const Icon(Icons.perm_identity),
               iconSize: 30.0,
             ),
-            onPressed: ()=> _confirmSignOut(context),
+            onPressed: ()=> {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Student_info()
+                ),
+              )
+            },
           ),
 
         ],
@@ -463,6 +474,22 @@ class _ChatState extends State<Chat> {
         title: Text(widget.studentNumber, style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600),),
         elevation: 10.0,
         centerTitle: true,
+        actions: <Widget>[
+          FlatButton(
+            child: IconButton(
+              icon: const Icon(Icons.perm_identity),
+              iconSize: 30.0,
+            ),
+            onPressed: ()=> {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Student_info()
+                ),
+              )
+            },
+          ),
+        ],
       ),
       body: Builder(
         builder: (BuildContext context) {
@@ -515,7 +542,7 @@ class _ChatState extends State<Chat> {
                   ),
                 ),
                 title: SizedBox(
-                  height: 65.0,
+                  height: 75.0,
                   child: Text(
                     '${widget.students[index]['examDate']}' ,
                     style:  TextStyle(color: Colors.teal, fontSize: 20.0, fontFamily: 'Montserrat' ) ,

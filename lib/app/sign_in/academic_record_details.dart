@@ -51,7 +51,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   borderRadius: BorderRadius.circular(15.0)
                 ),
                 color: Colors.black54,//Color(0xffffff4ce),
-                elevation: 80.0,
+                elevation: 10.0,
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 15.0,),
@@ -72,18 +72,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Text(
                             'Final Mark',
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                               color: Colors.white//Color(0xfffbe9b7b)
                             ),
                           ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black ),// //Color(0xfff3c2f2f),),
+                          Icon(Icons.school, size: 20.0, color: Colors.black ),// //Color(0xfff3c2f2f),),
 
                           Text(
                             widget.details['finalMark'].toString(),
                             style: TextStyle(
-                              fontSize: 25.0,
+                              fontSize: 15.0,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w600,
                               color: Colors.white
@@ -102,18 +102,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Text(
                             'Exam Mark',
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                             ),
                           ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+                          Icon(Icons.school, size: 20.0, color: Colors.black87),
 
                           Text(
                             widget.details['examMark'].toString(),
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                               color: Colors.white
@@ -132,18 +132,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Text(
                             'Year Mark',
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                             ),
                           ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+                          Icon(Icons.school, size: 20.0, color: Colors.black87),
 
                           Text(
                             widget.details['yearMark'].toString(),
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -162,18 +162,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Text(
                             'Year Mark Weight',
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                             ),
                           ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+                          Icon(Icons.school, size: 20.0, color: Colors.black87),
 
                           Text(
                             widget.details['yearMarkWeight'].toString() == null ? '' : widget.details['yearMarkWeight'].toString(),
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -192,18 +192,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Text(
                             'Exam Mark Weight',
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                             ),
                           ),
-                          Icon(Icons.school, size: 35.0, color: Colors.black87),
+                          Icon(Icons.school, size: 20.0, color: Colors.black87),
 
                           Text(
                             widget.details['examMarkWeight'].toString() == null ? '' : widget.details['examMarkWeight'].toString(),
                             style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -216,8 +216,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
                   ],
                 ),
-
-
               )
 
             ],

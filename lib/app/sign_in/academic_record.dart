@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:unisa/app/sign_in/Home_page.dart';
+import 'package:unisa/app/sign_in/student_info.dart';
 import 'package:unisa/app/sign_in/time_table.dart';
 import 'package:unisa/common_widgets/form_submit_button.dart';
 import 'package:unisa/common_widgets/platform_alert_dialog.dart';
@@ -185,6 +186,7 @@ class _AcademicRecordState extends State<AcademicRecord> {
           labelText: 'isCreditsOnly',
           hintText: 'true /false'
       ),
+      maxLength: 5,
       obscureText: false,
       textInputAction: TextInputAction.next,
       controller: yearController,
@@ -201,6 +203,7 @@ class _AcademicRecordState extends State<AcademicRecord> {
         labelText: 'Student Number',
         hintText: '56102548',
       ),
+      maxLength: 8,
       autocorrect: false,
       textInputAction: TextInputAction.next,
       controller: studemtNumberController,
@@ -219,6 +222,7 @@ class _AcademicRecordState extends State<AcademicRecord> {
         labelText: 'Qualification Code',
         hintText: '99880',
       ),
+      maxLength: 5,
       autocorrect: false,
       textInputAction: TextInputAction.done,
       controller: examPeriodController,
@@ -284,29 +288,21 @@ class _AcademicRecordState extends State<AcademicRecord> {
       appBar: AppBar(
         title: Text('Academic Record',style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600),),
         centerTitle: true,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              iconSize: 30.0,
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: MaterialLocalizations
-                  .of(context)
-                  .openAppDrawerTooltip,
-            );
-          },
-        ),
         titleSpacing: 0.0,
         actions: <Widget>[
-
           FlatButton(
             child: IconButton(
-              icon: const Icon(Icons.input),
+              icon: const Icon(Icons.perm_identity),
               iconSize: 30.0,
             ),
-            onPressed: ()=> _confirmSignOut(context),
+            onPressed: ()=> {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Student_info()
+                ),
+              )
+            },
           ),
 
         ],
@@ -469,6 +465,22 @@ class _ChatState extends State<Chat> {
         title: Text(widget.studentNumber, style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600),),
         elevation: 10.0,
         centerTitle: true,
+        actions: <Widget>[
+          FlatButton(
+            child: IconButton(
+              icon: const Icon(Icons.perm_identity),
+              iconSize: 30.0,
+            ),
+            onPressed: ()=> {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Student_info()
+                ),
+              )
+            },
+          ),
+        ],
       ),
       body: Builder(
         builder: (BuildContext context) {
