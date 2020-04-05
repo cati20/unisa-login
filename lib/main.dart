@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
             GestureDetector(
                 child: Image.asset(
                 'images/Splash.gif',
-                height: 600 ,
+                height: 580 ,
                 fit: BoxFit.fill,
                 width:MediaQuery.of(context).size.width,
                 ),

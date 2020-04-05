@@ -192,8 +192,8 @@ class _AcademicRecordState extends State<AcademicRecord> {
                       'show credited modules only',
                       style: TextStyle(
                         fontFamily: 'Montserrat',
-                         fontSize: 18.0 ,
-                         fontWeight: FontWeight.w600,
+                         fontSize: 10.0 ,
+                         fontWeight: FontWeight.w400,
                          color: Colors.black
                          ),
                       textAlign: TextAlign.left,

@@ -533,7 +533,7 @@ class _ProfileState extends State<Profile> {
                           Text(
                             'Home Language',
                             style: TextStyle(
-                              fontSize: 19.0,
+                              fontSize: 12.0,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -545,7 +545,7 @@ class _ProfileState extends State<Profile> {
                           Text(
                             widget.homeLanguageDescription.toString(),
                             style: TextStyle(
-                                fontSize: 15.0,
+                                fontSize: 12.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
