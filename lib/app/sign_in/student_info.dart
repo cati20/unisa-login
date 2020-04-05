@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:unisa/app/sign_in/time_table.dart';
 import 'package:unisa/services/unisa_login.dart';
 import 'dart:async';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http ;
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-
-
-import 'Home_page.dart';
-import 'academic_record.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 
 class Student_info extends StatefulWidget  {
@@ -44,6 +39,10 @@ class _Student_infoState extends State<Student_info> {
   String addressLine2;
   String postalCode;
   bool isloading = false;
+  bool checked = false;
+
+  TextEditingController studentNumberController = TextEditingController(); 
+
 
 
 
@@ -51,7 +50,7 @@ class _Student_infoState extends State<Student_info> {
 
     final token = Provider.of<Token>(context);
     final cookie =token.cookie.toString();
-    final studentNumber =  token.student;
+    final studentNumber = checked ? studentNumberController.text :  token.student;
 
    setState(() {
      isloading = true;
@@ -70,19 +69,25 @@ class _Student_infoState extends State<Student_info> {
     final registr = 'https://myadmin.unisa.ac.za/restricted-myadmin-student-services/services/rest/studentregistrationservice/student?studentNumber=${studentNumber}';
     final address = 'https://myadmin.unisa.ac.za/myadmin-biographic-services/services/rest/addressservice/address?reference=${studentNumber}&type=PHYSICAL&category=1&toolName=biographic-detail-app';
     final phone = 'https://myadmin.unisa.ac.za/myadmin-biographic-services/services/rest/contactservice/contact?reference=${studentNumber}&type=1&toolName=biographic-detail-app';
-    final bio = 'https://myadmin.unisa.ac.za/myadmin-biographic-services/services/rest/biographicservice/biographic/${studentNumber}?toolName=biographic-detail-app';
+    final bio = 'https://myadmin.unisa.ac.za/restricted-myadmin-biographic-services/services/rest/biographicservice/biographic/${studentNumber}?toolName=biographic-detail-app';
+    final qua_status = 'https://myadmin.unisa.ac.za/restricted-myadmin-student-services/services/rest/studentregistrationservice/student?studentNumber=${studentNumber}';
+
 
    final res = await http.get(url,headers: header );
   final respo = await http.get(registr,headers: header);
    final re = await http.get(phone, headers: header);
    final adrr = await http.get(address, headers: header);
    final biogra = await http.get(bio, headers: header);
+    final qualification_status = await http.get(qua_status, headers: header);
 
    final fina = convert.jsonDecode(res.body);
    final prodata = convert.jsonDecode(re.body);
    final pro = convert.jsonDecode(respo.body);
    final data = convert.jsonDecode(adrr.body);
    final bigraphy = convert.jsonDecode(biogra.body);
+   final status = convert.jsonDecode(qualification_status.body);
+
+   //print(status);
 
 
 
@@ -140,6 +145,12 @@ class _Student_infoState extends State<Student_info> {
   }//end of studentInfo function
 
 
+  @override
+  void dispose(){
+    studentNumberController.dispose();
+   
+    super.dispose();
+  }
 
 
 
@@ -147,73 +158,119 @@ class _Student_infoState extends State<Student_info> {
 
   @override
   Widget build(BuildContext context) {
-
-
+        
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Student Info', style: TextStyle(
             fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
         centerTitle: true,
+        
 
       ),
 
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 200.0,),
-            SizedBox(
-              height: 200.0,
-              width: 300.0,
-              child: isloading ?
-              LiquidCircularProgressIndicator(
-                value: 0.60, // Defaults to 0.5.
-                valueColor: AlwaysStoppedAnimation(Colors.teal), // Defaults to the current Theme's accentColor.
-                backgroundColor: Colors.white, // Defaults to the current Theme's backgroundColor.
-                borderColor: Colors.black,
-                borderWidth: 5.0,
-                //borderRadius: 30.0,
-                direction: Axis.vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.horizontal.
-                center: Text("Loading..."),
-              )
-              /*Text('Loading' ,
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.w600
+      body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+                Row(
+                
+                  children: <Widget>[
+                    Text(
+                      'Tick to enter a student',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                         fontSize: 18.0 ,
+                         fontWeight: FontWeight.w600,
+                         color: Colors.black
+                         ),
+                      textAlign: TextAlign.left,
+                      ),
+                    Checkbox(
+                      value: checked,
+                      activeColor: Colors.black,
+                      checkColor: Colors.teal,
+                      tristate: false,
+                      onChanged: (value){
+                        setState(() {
+                          checked = value;
+                        });
+                      }
+                      )
+                  ],
                 ),
-                textAlign: TextAlign.center,)*/
-                  : 
-              Container(
-                height: 250.0,
-                child: Image.asset(
-                    'images/avatar.png',
-                  fit: BoxFit.cover,
+                SizedBox(height: 100.0,),
+                checked == true ?
+                TextFormField(
+                  decoration: InputDecoration(
+                  labelText: 'Student Number',
+                  hintText: '56102548',
+                  prefixIcon: Icon(Icons.account_circle, color: Colors.pink,),
+                    border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
+                    focusColor: Colors.lightGreen
+                    
+                  ),
+                  maxLength: 8,
+                  autocorrect: false,
+                  textInputAction: TextInputAction.done,
+                  controller: studentNumberController,
+                  keyboardType: TextInputType.numberWithOptions(signed: false, decimal: false),
+                  enabled: isloading ? false : true,
+                  
+                )
+                : SizedBox(),
+                SizedBox(
                   height: 200.0,
+                  width: 300.0,
+                  child: isloading ?
+                  Center(
+                    
+                    child: CollectionScaleTransition(
+                      children: <Widget>[
+                      Icon(FontAwesomeIcons.bookOpen),
+                      Icon(Icons.pageview),
+                      Icon(FontAwesomeIcons.solidFile),
+                    ],
                 ),
-              ),
-            ),
-            SizedBox(height: 10.0,),
-            RaisedButton(
-              child: Text(
-                'Get Profile',
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18.0,
-                  color: Colors.white
+                  ) 
+                : 
+                  Container(
+                    height: 250.0,
+                    child: Image.asset(
+                        'images/avatar.png',
+                      fit: BoxFit.cover,
+                      height: 200.0,
+                    ),
+                  ),
                 ),
+                SizedBox(height: 10.0,),
+                RaisedButton(
+                  child: Text(
+                    'Get Profile',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18.0,
+                      color: Colors.white
+                    ),
 
-              ),
-              color: Colors.teal, 
-              onPressed: isloading == false ? () => studentInfo(context) : null,
-            ),
-          ],
+                  ),
+                  color: Colors.teal, 
+                  onPressed: isloading == false ? () => studentInfo(context) : null,
+                ),
+            ],
+          ),
         ),
+              ),
       ),
 
 
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white70,
     );
   }
 

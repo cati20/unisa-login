@@ -72,10 +72,11 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                     Text(
                       widget.details['resultTypeDescription'],
                       style: TextStyle(
-                          fontSize:15,
+                          fontSize:20,
                           fontFamily: 'Montserrat',
                           color: Colors.teal
                       ),
+                      textAlign: TextAlign.center,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(15.0),

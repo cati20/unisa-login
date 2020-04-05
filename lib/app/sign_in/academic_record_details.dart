@@ -58,7 +58,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     Text(
                       widget.details['description'],
                       style: TextStyle(
-                          fontSize:30,
+                          fontSize:20,
                           fontFamily: 'Montserrat',
                         color: Colors.teal
                       ),

@@ -27,6 +27,7 @@ class _AcademicRecordState extends State<AcademicRecord> {
   bool _isLoading = false;
   List students ;
   String studentNumber;
+  bool checked = false;
 
 
 
@@ -54,6 +55,8 @@ class _AcademicRecordState extends State<AcademicRecord> {
   getResults(BuildContext context) async {
     final token = Provider.of<Token>(context);
     final cookie = token.cookie;
+
+    final option = checked == true ? 'true' : 'false';
 
     setState(() {
       _isLoading = true;
@@ -86,7 +89,7 @@ class _AcademicRecordState extends State<AcademicRecord> {
     }
 
 
-    if( studentNr == '56808453' || studentNr == null || studentNr.length < 8 || studentNr.length > 8){
+    if( studentNr == '56808456' || studentNr == null || studentNr.length < 8 || studentNr.length > 8){
 
       setState(() {
         _isLoading = false;
@@ -109,7 +112,7 @@ class _AcademicRecordState extends State<AcademicRecord> {
       };
 
 
-      final examReultsURI = 'https://myadmin.unisa.ac.za/myadmin-student-services/services/rest/academicmodulerecordservice/academicmodules?studentNumber=${studentNr}&isCreditsOnly=${year}&selectedQualificationCode=${examPeriod}&toolName=academic-history-record-app';
+      final examReultsURI = 'https://myadmin.unisa.ac.za/myadmin-student-services/services/rest/academicmodulerecordservice/academicmodules?studentNumber=${studentNr}&isCreditsOnly=${option}&selectedQualificationCode=${examPeriod}&toolName=academic-history-record-app';
 
       final res = await http.get(examReultsURI,headers: header );
 
@@ -180,19 +183,37 @@ class _AcademicRecordState extends State<AcademicRecord> {
   }
 
 
-  TextField _buildYearTextField() {
-    return TextField(
-      decoration: InputDecoration(
-          labelText: 'isCreditsOnly',
-          hintText: 'true /false'
-      ),
-      maxLength: 5,
-      obscureText: false,
-      textInputAction: TextInputAction.next,
-      controller: yearController,
+  Widget _buildYearTextField() {
+    
+  return Row(
 
-
+                  children: <Widget>[
+                    Text(
+                      'show credited modules only',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                         fontSize: 18.0 ,
+                         fontWeight: FontWeight.w600,
+                         color: Colors.black
+                         ),
+                      textAlign: TextAlign.left,
+                      ),
+                    Checkbox(
+                      value: checked,
+                      activeColor: Colors.black,
+                      checkColor: Colors.teal,
+                      tristate: false,
+                      onChanged: (value){
+                        setState(() {
+                          checked = value;
+                        });
+                      }
+                      )
+                  ],
     );
+                
+              
+
   }
 
   TextField _buildStudentNoTextField() {

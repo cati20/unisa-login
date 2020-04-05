@@ -16,6 +16,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http ;
 import 'package:unisa/services/unisa_login.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 
 
@@ -129,30 +130,7 @@ class _StudentLoginState extends State<StudentLogin> {
 
       ),
 
-      body: _isLoading ?
-
-      StepProgressIndicator(
-        totalSteps: 6,
-        currentStep: 4,
-        size: 36,
-        selectedColor: Colors.black,
-        unselectedColor: Colors.grey[200],
-        customStep: (index, color, _) => color == Colors.black
-            ? Container(
-          color: color,
-          child: Icon(
-            Icons.check,
-            color: Colors.white,
-          ),
-        )
-            : Container(
-          color: color,
-          child: Icon(
-            Icons.remove,
-          ),
-        ),
-      )
-      :
+      body: 
       SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -185,7 +163,7 @@ class _StudentLoginState extends State<StudentLogin> {
                 maxLength: 8,
                 autocorrect: false,
                 keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
                 onChanged: (email) => _updateState(),
                 onEditingComplete: _emailEditingComplete,
                 enabled: _isLoading ? false : true,
@@ -213,7 +191,8 @@ class _StudentLoginState extends State<StudentLogin> {
                 enabled: _isLoading ? false : true,
 
               ),
-
+              _isLoading ? Center(child: JumpingText('Logging in'),)
+              :
               RaisedButton(
                 child:  Text(
                    _isLoading ? "Logging In" : 'Login',

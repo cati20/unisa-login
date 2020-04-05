@@ -35,6 +35,10 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   liquid_progress_indicator: ^0.3.2
   step_progress_indicator: ^0.2.0+3
+  custom_splash: ^0.0.2
+  flutter_easyloading: ^1.1.3
+  progress_indicators: ^0.1.4
+
 
 
 
@@ -48,7 +52,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.6.1
 
 flutter_icons:
-  image_path: "icons/logo.png"
+  image_path: "images/logo1.png"
   android: true
   ios: true
 
@@ -68,10 +72,11 @@ flutter:
   assets:
     - images/google-logo.png
     - images/facebook-logo.png
-    - images/unisa-logo.jpg
     - images/logo.png
     - images/chat.png
+    - images/logo1.png
     - images/avatar.png
+    - images/Splash.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:unisa/app/sign_in/academic_record_details.dart';
@@ -13,10 +15,12 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http ;
 import 'package:unisa/services/unisa_login.dart';
 import 'dart:io';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
-
-
+import 'package:progress_indicators/progress_indicators.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'academic_record.dart';
+
+
+
 
 class HomePage extends StatefulWidget {
 
@@ -291,67 +295,70 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Exam Details', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
-          centerTitle: true,
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(Icons.menu),
-                iconSize: 30.0,
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                tooltip: MaterialLocalizations
-                    .of(context)
-                    .openAppDrawerTooltip,
-              );
-            },
-          ),
-          titleSpacing: 0.0,
-          actions: <Widget>[
-
-            FlatButton(
-                child: IconButton(
-                  icon: const Icon(Icons.perm_identity),
+    return FlutterEasyLoading(
+  
+          child: Scaffold(
+          appBar: AppBar(
+            title: Text('Exam Details', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
+            centerTitle: true,
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(Icons.menu),
                   iconSize: 30.0,
-                ),
-                onPressed: ()=> {
-                Navigator.push(
-                context,
-                MaterialPageRoute(
-                builder: (context) => Student_info()
-                ),
-                )
-                },
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  tooltip: MaterialLocalizations
+                      .of(context)
+                      .openAppDrawerTooltip,
+                );
+              },
             ),
+            titleSpacing: 0.0,
+            actions: <Widget>[
 
+              FlatButton(
+                  child: IconButton(
+                    icon: const Icon(Icons.perm_identity),
+                    iconSize: 30.0,
+                  ),
+                  onPressed: ()=> {
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                  builder: (context) => Student_info()
+                  ),
+                  )
+                  },
+              ),
+
+            ],
+          ),
+
+          body: _buildSingleChildScrollView(context),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Home'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.edit),
+              title: Text('Timetable'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              title: Text('Acad Record'),
+            ),
           ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
         ),
 
-        body: _buildSingleChildScrollView(context),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            title: Text('Timetable'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('Acad Record'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+            backgroundColor: Colors.grey[200],
       ),
-
-          backgroundColor: Colors.grey[200],
     );
   }
 
@@ -366,22 +373,25 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(
-                        height: 180.0,
+                        height: 60.0,
                         width: 260.0,
                         child: _buildHeader(),
                     ),
-                    SizedBox(height:20.0,),
+                    SizedBox(height:8.0,),
                     _buildStudentNoTextField(),
                     SizedBox(height: 8.0,),
                     _buildYearTextField(),
                     SizedBox(height: 8.0,),
                     _buildExamPeriodTextField(),
                     SizedBox(height: 8.0,),
+                   _isLoading == false ?
                     FormSubmitButton(
                       text: 'Get results',
                       onPressed: _isLoading ? null : () => getResults(context),
 
-                    ),
+                    )
+                    :
+                    _buildHeader()
                   ],
                 ),
               ),
@@ -389,9 +399,23 @@ class _HomePageState extends State<HomePage> {
       );
   }
 
-  Widget _buildHeader(){
+   _buildHeader(){
     if(_isLoading){
       return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Text('Fetching Results'),
+            JumpingDotsProgressIndicator(
+              fontSize: 20.0,
+              
+            )
+          ],  
+        ),
+      ) ;
+            
+
+      /* return Center(
         child: StepProgressIndicator(
           totalSteps: 10,
           currentStep: 7,
@@ -400,7 +424,7 @@ class _HomePageState extends State<HomePage> {
           customSize: (index) => (index + 1) * 10.0,
         )
         ,
-      );
+      ); */
     }
     return Text(
       '',
