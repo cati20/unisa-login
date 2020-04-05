@@ -375,6 +375,7 @@ class _ProfileState extends State<Profile> {
               Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)
+                    
                 ),
 
                 color: Colors.black54, //Color(0xffffff4ce),

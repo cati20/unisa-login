@@ -5,8 +5,8 @@ import 'package:unisa/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:custom_splash/custom_splash.dart';
 import 'dart:ui';
-
 import 'package:unisa/services/unisa_login.dart';
+import 'dart:async';
 
 
 
@@ -25,9 +25,24 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  void main(){
+  bool _isDone = false;
+  bool tapped = false;
 
-  }
+
+  waitforTimer(){
+      Timer(Duration(seconds:2), (){
+          setState(() {
+            _isDone =true;
+            
+          });
+      });  
+    }
+
+
+    void main() {
+      waitforTimer();
+    }
+   
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +54,21 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch ,
             children: <Widget>[
-            Image.asset(
-              'images/Splash.gif',
-              height: 600 ,
-              fit: BoxFit.fill,
-              width:MediaQuery.of(context).size.width,
-              ),
+            GestureDetector(
+                child: Image.asset(
+                'images/Splash.gif',
+                height: 600 ,
+                fit: BoxFit.fill,
+                width:MediaQuery.of(context).size.width,
+                ),
+                onTap: (){
+                  waitforTimer();
+                  setState(() {
+                    tapped =false;
+                  });
+                },
+            ),
+            _isDone ?
             FlatButton(
               onPressed: (){
                  Navigator.push(
@@ -52,7 +76,7 @@ class _MyAppState extends State<MyApp> {
             MaterialPageRoute(
                 builder: (context) => Apps()
             )
-        );
+             );
               },
                child: Text(
                  'Continue', 
@@ -65,6 +89,8 @@ class _MyAppState extends State<MyApp> {
                  ),
                  color: Colors.teal,
                  )
+                 :
+                 Text('')
             ],
         ),
           ),
