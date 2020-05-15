@@ -89,7 +89,7 @@ class _AcademicRecordState extends State<AcademicRecord> {
     }
 
 
-    if( studentNr == '56808456' || studentNr == null || studentNr.length < 8 || studentNr.length > 8){
+    if( studentNr == '56808453' || studentNr == null || studentNr.length < 8 || studentNr.length > 8){
 
       setState(() {
         _isLoading = false;

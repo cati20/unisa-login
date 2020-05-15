@@ -79,6 +79,7 @@ class _Student_infoState extends State<Student_info> {
    final adrr = await http.get(address, headers: header);
    final biogra = await http.get(bio, headers: header);
     final qualification_status = await http.get(qua_status, headers: header);
+    print(respo.body);
 
    final fina = convert.jsonDecode(res.body);
    final prodata = convert.jsonDecode(re.body);
@@ -87,7 +88,12 @@ class _Student_infoState extends State<Student_info> {
    final bigraphy = convert.jsonDecode(biogra.body);
    final status = convert.jsonDecode(qualification_status.body);
 
-   //print(status);
+   //print(fina);
+    //print(prodata);
+    //print(pro);
+   // print(bigraphy);
+    //print(data);
+   // print(status);
 
 
 
@@ -120,7 +126,7 @@ class _Student_infoState extends State<Student_info> {
         context,
         MaterialPageRoute(
             builder: (context) => Profile(
-                  title: title,
+              title: title,
               initials: initials,
               surname: surname,
               firstNames: firstNames,

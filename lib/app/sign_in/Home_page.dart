@@ -118,6 +118,8 @@ class _HomePageState extends State<HomePage> {
 
         final res = await http.get(examReultsURI, headers: header);
 
+
+
         if (res.statusCode != 200) {
           final json = convert.jsonDecode(res.body);
           setState(() {
