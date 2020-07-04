@@ -2,9 +2,11 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:unisa/app/sign_in/academic_record_details.dart';
 import 'package:unisa/app/sign_in/sign_in_page.dart';
 import 'package:unisa/app/sign_in/student_info.dart';
+import 'package:unisa/app/sign_in/student_progress.dart';
 import 'package:unisa/app/sign_in/time_table.dart';
 import 'package:unisa/common_widgets/form_submit_button.dart';
 import 'package:unisa/common_widgets/platform_alert_dialog.dart';
@@ -306,10 +308,15 @@ class _HomePageState extends State<HomePage> {
             leading: Builder(
               builder: (BuildContext context) {
                 return IconButton(
-                  icon: const Icon(Icons.menu),
+                  icon:  FaIcon(FontAwesomeIcons.stumbleuponCircle),
                   iconSize: 30.0,
                   onPressed: () {
-                    Scaffold.of(context).openDrawer();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Student_progress()
+                      ),
+                    );
                   },
                   tooltip: MaterialLocalizations
                       .of(context)
@@ -366,6 +373,7 @@ class _HomePageState extends State<HomePage> {
 
   SingleChildScrollView _buildSingleChildScrollView(BuildContext context) {
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
         child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Padding(

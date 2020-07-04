@@ -27,13 +27,14 @@ class _AcademicDetailsState extends State<AcademicDetails> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Academic Details', style: TextStyle(
+        title: Text('Module Details', style: TextStyle(
             fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
         centerTitle: true,
 
       ),
 
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(

@@ -355,6 +355,7 @@ class _AcademicRecordState extends State<AcademicRecord> {
 
   SingleChildScrollView _buildSingleChildScrollView(BuildContext context) {
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Padding(
@@ -534,6 +535,7 @@ class _ChatState extends State<Chat> {
 
   ListView _buildListView() {
     return ListView.builder(
+      physics: BouncingScrollPhysics(),
       itemCount: widget.students.length,
       itemBuilder: (context, index) {
         return Padding(

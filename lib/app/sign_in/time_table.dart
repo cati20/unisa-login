@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:unisa/app/sign_in/Home_page.dart';
 import 'package:unisa/app/sign_in/academic_record.dart';
 import 'package:unisa/app/sign_in/student_info.dart';
+import 'package:unisa/app/sign_in/student_progress.dart';
 import 'package:unisa/common_widgets/form_submit_button.dart';
 import 'package:unisa/common_widgets/platform_alert_dialog.dart';
 import 'package:unisa/services/auth.dart';
@@ -96,18 +98,21 @@ class _TimeTableState extends State<TimeTable> {
     }else{
 
 
-      final referer = 'https://myadmin.unisa.ac.za/student/portal/exam-results-app/search';
+      final referer = 'https://myadmin.unisa.ac.za/student/portal/student-exam-timetable-app/search';
       final header = {
         'Referer': referer,
         'Content-Type': 'application/json',
-        'Accept' : 'application/json',
-        'Cookie': cookie
+       // 'Accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'Cookie': cookie,
+        'Host':'myadmin.unisa.ac.za'
       };
 
 
       final examReultsURI = 'https://myadmin.unisa.ac.za/myadmin-exam-services/services/rest/examtimetableservice/examtimetable?studentNumber=${studentNr}&academicPeriod=${examPeriod}&academicYear=${year}&practicalType=N&toolName=student-exam-timetable-app';
-
+      //final mod_time = 'https://myadmin.unisa.ac.za/restricted-myadmin-exam-services/services/rest/examtimetableservice/examtimetable?studentNumber=56808453&academicPeriod=6&academicYear=2020&practicalType=N&toolName=student-exam-timetable-app'; //&toolName=student-exam-timetable-app/myadmin-exam-services/services/rest/examtimetableservice/examtimetable';
       final res = await http.get(examReultsURI,headers: header );
+      final pro = convert.jsonDecode(res.body);
+
 
       if(res.statusCode != 200){
         final json = convert.jsonDecode(res.body);
@@ -127,7 +132,7 @@ class _TimeTableState extends State<TimeTable> {
 
         setState(() {
           _isLoading = false;
-          students = json['examTimetableRecord'];
+          students = json['admissionList'];
           studentNumber = studentNr;
           timetableStatus = status;
         });
@@ -152,9 +157,6 @@ class _TimeTableState extends State<TimeTable> {
 
 
       } //end of inner else statement
-
-
-
 
     }// end of Main else statement
 
@@ -287,10 +289,15 @@ class _TimeTableState extends State<TimeTable> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: const Icon(Icons.menu),
+              icon:  FaIcon(FontAwesomeIcons.stumbleuponCircle),
               iconSize: 30.0,
               onPressed: () {
-                Scaffold.of(context).openDrawer();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Student_progress()
+                  ),
+                );
               },
               tooltip: MaterialLocalizations
                   .of(context)
@@ -344,6 +351,7 @@ class _TimeTableState extends State<TimeTable> {
 
   SingleChildScrollView _buildSingleChildScrollView(BuildContext context) {
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Padding(
@@ -469,6 +477,7 @@ class _ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.studentNumber, style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600),),
@@ -522,6 +531,7 @@ class _ChatState extends State<Chat> {
 
   ListView _buildListView() {
     return ListView.builder(
+      physics: BouncingScrollPhysics(),
       itemCount: widget.students.length,
       itemBuilder: (context, index) {
         return Padding(

@@ -83,6 +83,7 @@ flutter:
     - images/logo11.png
     - images/avatar.png
     - images/Splash.gif
+    - images/por.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

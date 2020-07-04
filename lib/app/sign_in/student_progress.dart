@@ -8,40 +8,32 @@ import 'package:http/http.dart' as http ;
 import 'package:progress_indicators/progress_indicators.dart';
 
 
-class Student_info extends StatefulWidget  {
+class Student_progress extends StatefulWidget  {
 
 
 
 
 
   @override
-  _Student_infoState createState() => _Student_infoState();
+  _Student_progressState createState() => _Student_progressState();
 }
 
-class _Student_infoState extends State<Student_info> {
+class _Student_progressState extends State<Student_progress> {
 
+  String studenNumber;
   String title;
-  String initials;
-  String surname;
-  String firstNames;
-  String gender;
-  String birthDate;
-  String nationality;
-  String homeLanguageDescription;
-  String regRegionDescription;
-  String qualificationCode;
-  String examCentreDescription;
-  String amountFinalBalance;
-  String year;
-  String courierContactNumber;
-  String emailAddress;
-  String addressLine1;
-  String addressLine2;
-  String postalCode;
+  String studenttNames;
+  String qualificatin;
+  String registered;
+  List modules;
+  String totalModules;
+  String totalPassedModules;
+  String averagePercentage;
   bool isloading = false;
   bool checked = false;
+  bool failed = false;
 
-  TextEditingController studentNumberController = TextEditingController(); 
+  TextEditingController studentNumberController = TextEditingController();
 
 
 
@@ -51,12 +43,14 @@ class _Student_infoState extends State<Student_info> {
     final token = Provider.of<Token>(context);
     final cookie =token.cookie.toString();
     final studentNumber = checked ? studentNumberController.text :  token.student;
+    
 
-   setState(() {
-     isloading = true;
-   });
 
-    final referer = 'https://myadmin.unisa.ac.za/student/portal/exam-results-app/search';
+    setState(() {
+      isloading = true;
+    });
+
+    final referer = 'https://myadmin.unisa.ac.za/student/portal/add-final-year-modules-app/add';
     final header = {
       'Referer': referer,
       'Content-Type': 'application/json',
@@ -65,89 +59,62 @@ class _Student_infoState extends State<Student_info> {
     };
 
 
-    final url = 'https://myadmin.unisa.ac.za/myadmin-financial-services/services/rest/financialservice/accountstatement?studentId=${studentNumber}&accountClassification=SF&toolName=financial-details-app';
-    final registr = 'https://myadmin.unisa.ac.za/restricted-myadmin-student-services/services/rest/studentregistrationservice/student?studentNumber=${studentNumber}';
-    final address = 'https://myadmin.unisa.ac.za/myadmin-biographic-services/services/rest/addressservice/address?reference=${studentNumber}&type=PHYSICAL&category=1&toolName=biographic-detail-app';
-    final phone = 'https://myadmin.unisa.ac.za/myadmin-biographic-services/services/rest/contactservice/contact?reference=${studentNumber}&type=1&toolName=biographic-detail-app';
-    final bio = 'https://myadmin.unisa.ac.za/restricted-myadmin-biographic-services/services/rest/biographicservice/biographic/${studentNumber}?toolName=biographic-detail-app';
-    final qua_status = 'https://myadmin.unisa.ac.za/restricted-myadmin-student-services/services/rest/studentregistrationservice/student?studentNumber=${studentNumber}';
+    final url = 'https://myadmin.unisa.ac.za/restricted/myadmin-student-services/services/rest/studentregistrationservice/modules/registrationForm?studentNumber=${studentNumber}&toolName=add-final-year-modules-app';
 
 
-   final res = await http.get(url,headers: header );
-  final respo = await http.get(registr,headers: header);
-   final re = await http.get(phone, headers: header);
-   final adrr = await http.get(address, headers: header);
-   final biogra = await http.get(bio, headers: header);
-   final qualification_status = await http.get(qua_status, headers: header);
-
-
-   final fina = convert.jsonDecode(res.body);
-   final prodata = convert.jsonDecode(re.body);
-   final pro = convert.jsonDecode(respo.body);
-   final data = convert.jsonDecode(adrr.body);
-   final bigraphy = convert.jsonDecode(biogra.body);
-   final status = convert.jsonDecode(qualification_status.body);
-    print(bigraphy);
-
-   //print(fina);
-    //print(prodata);
-    //print(pro);
-   // print(bigraphy);
-    //print(data);
-   // print(status);
+    final res = await http.get(url,headers: header );
 
 
 
-    setState(() {
-     title = bigraphy['title'];
-      initials =  bigraphy['initials'];
-      surname = bigraphy['surname'];
-      firstNames = bigraphy['firstNames'];
-      gender = bigraphy['gender'];
-      birthDate = bigraphy['birthDate'].toString();
-      nationality = bigraphy['nationality'];
-      homeLanguageDescription = bigraphy['homeLanguageDescription'];
-      regRegionDescription = bigraphy['regRegionDescription'];
-      qualificationCode = bigraphy['qualificationCode'];
-      examCentreDescription = bigraphy['examCentreDescription'];
-      amountFinalBalance = fina['amountFinalBalance'].toString();
-      year = fina['year'].toString();
-      courierContactNumber = prodata['courierContactNumber'];
-      emailAddress = prodata['emailAddress'];
-      addressLine1 = data['addressLine1'];
-      addressLine2 = data['addressLine2'];
-      postalCode = data['postalCode'];
-      isloading = false;
-    });
+      if ( res.statusCode == 500 ){
+        setState(() {
+          isloading = false;
+          failed = true;
+        });
+
+        AlertDialog(title: Text('Error'), content: Text('You are not in the final semester of study and may not apply for additional modules.'));
+      }else{
+
+        final status = convert.jsonDecode(res.body);
+
+
+        setState(() {
+          studenNumber = status['studentInfo']['studentNumber'].toString();
+          title = status['studentInfo']['title'];
+          studenttNames = status['studentInfo']['studentName'];
+          qualificatin = status['qualificationInfo']['descriptionInfo'][1]['description'];
+          registered = status['academicHistoryInfo']['registeredCredits'].toString();
+          modules = status['curriculumModulesInfos'];
+          totalModules = status['qualificationSpecialityInfo']['numberOfModules'].toString();
+          totalPassedModules = status['academicHistoryInfo']['totalPassedModules'].toString();
+          averagePercentage = status['academicHistoryInfo']['averagePercentage'].toString();
+          isloading = false;
+        });
 
 
 
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Profile(
-              title: title,
-              initials: initials,
-              surname: surname,
-              firstNames: firstNames,
-              gender: gender,
-              birthDate: birthDate,
-              nationality: nationality,
-              homeLanguageDescription: homeLanguageDescription,
-              regRegionDescription: regRegionDescription,
-              qualificationCode: qualificationCode,
-              examCentreDescription: examCentreDescription,
-              amountFinalBalance: amountFinalBalance,
-              year: year,
-              courierContactNumber: courierContactNumber,
-              emailAddress: emailAddress,
-              addressLine1: addressLine1,
-              addressLine2: addressLine2,
-              postalCode: postalCode,
-            )
-        )
-    );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Profile(
+                studenNumber :studenNumber,
+                title : title,
+                studenttNames :studenttNames,
+                qualificatin : qualificatin,
+                registered : registered,
+                modules : modules,
+                totalModules : totalModules,
+                totalPassedModules : totalPassedModules,
+                averagePercentage : averagePercentage,
+
+              )
+          ),
+        );
+      }
+
+
+
 
   }//end of studentInfo function
 
@@ -155,7 +122,7 @@ class _Student_infoState extends State<Student_info> {
   @override
   void dispose(){
     studentNumberController.dispose();
-   
+
     super.dispose();
   }
 
@@ -165,62 +132,62 @@ class _Student_infoState extends State<Student_info> {
 
   @override
   Widget build(BuildContext context) {
-        
+
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Student Info', style: TextStyle(
+        title: Text('Student Progress', style: TextStyle(
             fontFamily: 'Montserrat', fontWeight: FontWeight.w600)),
         centerTitle: true,
-        
+
 
       ),
 
       body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
                 Row(
-                
+
                   children: <Widget>[
                     Text(
                       'Tick to enter a student',
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
-                         fontSize: 18.0 ,
-                         fontWeight: FontWeight.w600,
-                         color: Colors.black
-                         ),
-                      textAlign: TextAlign.left,
+                          fontFamily: 'Montserrat',
+                          fontSize: 18.0 ,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black
                       ),
+                      textAlign: TextAlign.left,
+                    ),
                     Checkbox(
-                      value: checked,
-                      activeColor: Colors.black,
-                      checkColor: Colors.teal,
-                      tristate: false,
-                      onChanged: (value){
-                        setState(() {
-                          checked = value;
-                        });
-                      }
-                      )
+                        value: checked,
+                        activeColor: Colors.black,
+                        checkColor: Colors.teal,
+                        tristate: false,
+                        onChanged: (value){
+                          setState(() {
+                            checked = value;
+                          });
+                        }
+                    )
                   ],
                 ),
                 SizedBox(height: 100.0,),
                 checked == true ?
                 TextFormField(
                   decoration: InputDecoration(
-                  labelText: 'Student Number',
-                  hintText: '56102548',
-                  prefixIcon: Icon(Icons.account_circle, color: Colors.pink,),
-                    border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.0)),
-                    focusColor: Colors.lightGreen
-                    
+                      labelText: 'Student Number',
+                      hintText: '56102548',
+                      prefixIcon: Icon(Icons.account_circle, color: Colors.pink,),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+                      focusColor: Colors.lightGreen
+
                   ),
                   maxLength: 8,
                   autocorrect: false,
@@ -228,52 +195,64 @@ class _Student_infoState extends State<Student_info> {
                   controller: studentNumberController,
                   keyboardType: TextInputType.numberWithOptions(signed: false, decimal: false),
                   enabled: isloading ? false : true,
-                  
+
                 )
-                : SizedBox(),
+                    : SizedBox(),
                 SizedBox(
                   height: 200.0,
                   width: 300.0,
                   child: isloading ?
                   Center(
-                    
+
                     child: CollectionScaleTransition(
                       children: <Widget>[
-                      Icon(FontAwesomeIcons.bookOpen),
-                      Icon(Icons.pageview),
-                      Icon(FontAwesomeIcons.solidFile),
-                    ],
-                ),
-                  ) 
-                : 
+                        Icon(FontAwesomeIcons.bookOpen),
+                        Icon(Icons.pageview),
+                        Icon(FontAwesomeIcons.solidFile),
+                      ],
+                    ),
+                  )
+                      :
                   Container(
                     height: 250.0,
                     child: Image.asset(
-                        'images/avatar.png',
+                      'images/por.jpeg',
                       fit: BoxFit.cover,
                       height: 200.0,
                     ),
                   ),
                 ),
                 SizedBox(height: 10.0,),
+                failed ?
+                Text(
+                  'You are not a final year student',
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 18.0 ,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black
+                  ),
+                  textAlign: TextAlign.left,
+                )
+                :
                 RaisedButton(
                   child: Text(
-                    'Get Profile',
+                    'Get Student Progress',
                     style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18.0,
-                      color: Colors.white
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18.0,
+                        color: Colors.white
                     ),
 
                   ),
-                  color: Colors.teal, 
+                  color: Colors.teal,
                   onPressed: isloading == false ? () => studentInfo(context) : null,
                 ),
-            ],
+              ],
+            ),
           ),
         ),
-              ),
       ),
 
 
@@ -295,29 +274,18 @@ class _Student_infoState extends State<Student_info> {
 
 class Profile extends StatefulWidget {
   final title ;
-  final initials ;
-  final surname ;
-  final firstNames ;
-  final gender ;
-  final birthDate ;
-  final nationality ;
-  final homeLanguageDescription ;
-  final regRegionDescription ;
-  final qualificationCode ;
-  final examCentreDescription ;
-  final amountFinalBalance ;
-  final year ;
-  final courierContactNumber ;
-  final emailAddress ;
-  final addressLine1 ;
-  final addressLine2 ;
-  final postalCode ;
+  final studenNumber;
+  final studenttNames ;
+  final qualificatin;
+  final registered;
+  final modules;
+  final totalModules;
+  final totalPassedModules;
+  final averagePercentage;
 
 
-
-  const Profile({Key key,this.title, this.initials, this.surname, this.firstNames, this.gender, this.birthDate, this.nationality, this.homeLanguageDescription,
-  this.regRegionDescription,this.qualificationCode, this.examCentreDescription, this.amountFinalBalance, this.year, this.courierContactNumber, this.emailAddress
-  ,this.addressLine1, this.addressLine2, this.postalCode}) : super(key: key);
+  const Profile({Key key,this.title, this.studenNumber, this.studenttNames, this.qualificatin,  this.registered, this.modules, this.totalModules,
+    this.totalPassedModules,this.averagePercentage}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -338,30 +306,11 @@ class _ProfileState extends State<Profile> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Student info'),
+        title: Text('Student Progress'),
         //Text(widget.profile['studentN'], style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600),),
         elevation: 20.0,
         centerTitle: true,
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(13.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(
-                  'R'+widget.amountFinalBalance,
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0, fontFamily: 'Montserrat'),
-                  textAlign: TextAlign.left,
-                ),
-                Icon(
-                  FontAwesomeIcons.coins,
-                  color: Colors.white,
-                  size: 30.0,
-                )
-              ],
-            ),
-          )
-        ],
+
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -372,10 +321,10 @@ class _ProfileState extends State<Profile> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Student Profile',
+                'Student Progress',
                 style: TextStyle(
                     fontFamily: 'Montserrat',
-                    fontSize: 35.0,
+                    fontSize: 25.0,
                     color: Colors.black
                 ),
                 textAlign: TextAlign.center,
@@ -383,7 +332,6 @@ class _ProfileState extends State<Profile> {
               Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)
-                    
                 ),
 
                 color: Colors.black54, //Color(0xffffff4ce),
@@ -416,7 +364,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           widget.title == 'MISS' || widget.title == 'MRS'  ? FaIcon(FontAwesomeIcons.female)
-                          : FaIcon(FontAwesomeIcons.male),
+                              : FaIcon(FontAwesomeIcons.male),
                           // //Color(0xfff3c2f2f),),
 
                           Text(
@@ -440,7 +388,7 @@ class _ProfileState extends State<Profile> {
                         children: <Widget>[
 
                           Text(
-                            'Surname & initials',
+                            'Name',
                             style: TextStyle(
                                 fontSize: 13.0,
                                 fontFamily: 'Montserrat',
@@ -450,7 +398,7 @@ class _ProfileState extends State<Profile> {
                           ),
                           FaIcon(FontAwesomeIcons.personBooth),
                           Text(
-                            widget.surname.toString() + ' ' + widget.initials,
+                            widget.studenttNames.toString() ,
                             style: TextStyle(
                                 fontSize: 12.0,
                                 fontFamily: 'Montserrat',
@@ -469,7 +417,7 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'First Name',
+                            'Student No',
                             style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: 'Montserrat',
@@ -479,7 +427,7 @@ class _ProfileState extends State<Profile> {
                           ),
                           Icon(FontAwesomeIcons.user),
                           Text(
-                            widget.firstNames.toString(),
+                            widget.studenNumber.toString(),
                             style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: 'Montserrat',
@@ -491,115 +439,6 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Date of birth',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-                            softWrap: true,
-                          ),
-                          Icon(FontAwesomeIcons.calendarDay),
-                          Text(
-                            convertDate(widget.birthDate).substring(0,10),
-                            //convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-
-                          ),
-
-
-                        ],
-                      ),
-                    ),
-
-
-
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-
-                          Text(
-                            'Home Language',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-                          ),
-                          FaIcon(FontAwesomeIcons.language),
-
-                          Text(
-                            widget.homeLanguageDescription.toString(),
-                            style: TextStyle(
-                                fontSize: 12.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-
-
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Nationality',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-                            softWrap: true,
-                          ),
-                          FaIcon(FontAwesomeIcons.map),
-                          Text(
-                            widget.nationality.toString(),
-                            //convertDate(widget.details['examDate']).substring(0,10) ,//widget.details['studyUnitDescription'].toString() ,
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-
-                            ),
-
-                          ),
-                        ],
-                      ),
-                    ),
-
-
                   ],
                 ),
 
@@ -630,52 +469,19 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Cellphone ',
+                            ' ',
                             style: TextStyle(
-                                fontSize: 15.0,
+                                fontSize: 1.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white //Color(0xfffbe9b7b)
                             ),
                           ),
-                          Icon(Icons.phone_android, size: 20.0, color: Colors.black),
-                          // //Color(0xfff3c2f2f),),
 
                           Text(
-                            widget.courierContactNumber,
+                            widget.qualificatin,
                             style: TextStyle(
-                                fontSize: 15.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Email',
-                            style: TextStyle(
-                                fontSize: 15.0,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            ),
-                          ),
-                          FaIcon(FontAwesomeIcons.mailBulk),
-
-
-                          Text(
-                            widget.emailAddress,
-                            style: TextStyle(
-                                fontSize: 11.0,
+                                fontSize: 12.0,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
@@ -686,6 +492,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
 
+
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Row(
@@ -693,7 +500,7 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Home address',
+                            'Modules No',
                             style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: 'Montserrat',
@@ -701,10 +508,10 @@ class _ProfileState extends State<Profile> {
                                 color: Colors.white
                             ),
                           ),
-                         FaIcon(FontAwesomeIcons.home),
+                          FaIcon(FontAwesomeIcons.sortNumericUp),
 
                           Text(
-                            widget.addressLine1,
+                            widget.totalModules,
                             style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: 'Montserrat',
@@ -724,7 +531,7 @@ class _ProfileState extends State<Profile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'Surburb',
+                            'Completed Modules',
                             style: TextStyle(
                               fontSize: 15.0,
                               fontFamily: 'Montserrat',
@@ -734,9 +541,9 @@ class _ProfileState extends State<Profile> {
                             ),
 
                           ),
-                          FaIcon(FontAwesomeIcons.city),
+                          FaIcon(FontAwesomeIcons.sortNumericUp),
                           Text(
-                            widget.addressLine2,
+                            widget.totalPassedModules,
                             style: TextStyle(
                               fontSize: 15.0,
                               fontFamily: 'Montserrat',
@@ -760,7 +567,7 @@ class _ProfileState extends State<Profile> {
                         children: <Widget>[
 
                           Text(
-                            'Postal code',
+                            'Average',
                             style: TextStyle(
                               fontSize: 15.0,
                               fontFamily: 'Montserrat',
@@ -769,9 +576,42 @@ class _ProfileState extends State<Profile> {
 
                             ),
                           ),
-                          FaIcon(FontAwesomeIcons.mailchimp),
+                          FaIcon(FontAwesomeIcons.sortNumericUp),
                           Text(
-                            widget.postalCode,
+                            widget.averagePercentage +'%',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+
+                          Text(
+                            'Registered',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+
+                            ),
+                          ),
+                          FaIcon(FontAwesomeIcons.sortNumericUp),
+                          Text(
+                            widget.registered,
                             style: TextStyle(
                               fontSize: 15.0,
                               fontFamily: 'Montserrat',
